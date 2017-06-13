@@ -26,5 +26,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="按钮长按"
+            style="@style/demo_title"/>
+
+        <Button
+            android:id="@+id/long_click_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="button"/>
+
+        <TextView
+            android:id="@+id/long_click_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 </ScrollView>

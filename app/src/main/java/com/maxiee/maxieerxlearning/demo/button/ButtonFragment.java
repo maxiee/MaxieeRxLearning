@@ -26,6 +26,12 @@ public class ButtonFragment extends Fragment {
     @BindView(R.id.normal_click_textview)
     TextView mNormalClickTextView;
 
+    @BindView(R.id.long_click_button)
+    Button mLongClickButton;
+
+    @BindView(R.id.long_click_textview)
+    TextView mLongClickTextView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,6 +39,7 @@ public class ButtonFragment extends Fragment {
         ButterKnife.bind(this, v);
 
         buttonNormalClick();
+        buttonLongClick();
 
         return v;
     }
@@ -44,5 +51,14 @@ public class ButtonFragment extends Fragment {
         RxView.clicks(mNormalClickButton).subscribe(
                 Object -> mNormalClickTextView.setText(
                         "Clicked at " + System.currentTimeMillis()));
+    }
+
+    /**
+     * Long Click
+     */
+    private void buttonLongClick() {
+        RxView.longClicks(mLongClickButton).subscribe(
+                object -> mLongClickTextView.setText(
+                        "Long click at " + System.currentTimeMillis()));
     }
 }
