@@ -2,32 +2,34 @@ package com.maxiee.maxieerxlearning.ui.home;
 
 import android.util.Log;
 
+import com.maxiee.maxieerxlearning.ui.MainActivity;
+
 import io.reactivex.functions.Consumer;
 
 /**
  * Created by WangRui on 2017/6/13.
  */
 
-public class MainPresenter {
+public class HomePresenter {
     private static final int TYPE_SECTION = 1;
     private static final int TYPE_BUTTON = 2;
 
-    private MainActivity mActivity;
+    private HomeFragment mHomeFragment;
 
     ListItem[] mListItems = new ListItem[] {
             ListItem.create(TYPE_SECTION, "RxJava 学习"),
             ListItem.create(TYPE_SECTION, "RxBindings 学习"),
-            ListItem.create(TYPE_BUTTON, "按钮点击实例", object -> Log.d("maxiee", "clicked!"))
+            ListItem.create(TYPE_BUTTON, "按钮点击实例", object -> Log.d("maxiee", "clicked!")),
     };
 
-    public MainPresenter(MainActivity activity) {
-        mActivity = activity;
+    public HomePresenter(HomeFragment homeFragment) {
+        mHomeFragment = homeFragment;
     }
 
     public void onCreate() {
         for (ListItem l: mListItems) {
-            if      (l.type == TYPE_SECTION) mActivity.createTitle(l.text);
-            else if (l.type == TYPE_BUTTON) mActivity.createButton(l.text, l.mConsumer);
+            if      (l.type == TYPE_SECTION) mHomeFragment.createTitle(l.text);
+            else if (l.type == TYPE_BUTTON) mHomeFragment.createButton(l.text, l.mConsumer);
         }
     }
 

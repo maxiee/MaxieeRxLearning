@@ -1,8 +1,10 @@
 package com.maxiee.maxieerxlearning.ui.home;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,14 +13,16 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.maxiee.maxieerxlearning.R;
+import com.maxiee.maxieerxlearning.ui.MainActivity;
 
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by WangRui on 2017/6/13.
+ */
 
-    MainPresenter mMainPresenter;
+public class HomeFragment extends Fragment {
+    HomePresenter mHomePresenter;
 
     LinearLayout mMainContent;
 
@@ -26,29 +30,35 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT);
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_home, null);
 
-        mMainContent = (LinearLayout) findViewById(R.id.main_container);
+        mMainContent = (LinearLayout) v.findViewById(R.id.main_container);
 
-        mMainPresenter = new MainPresenter(this);
-        mMainPresenter.onCreate();
+        mHomePresenter = new HomePresenter(this);
+        mHomePresenter.onCreate();
+
+        return v;
     }
 
     void createTitle(String title) {
-        TextView titleView = new TextView(this);
+        TextView titleView = new TextView(getContext());
         titleView.setText(title);
         titleView.setTextSize(16);
         mMainContent.addView(titleView, lp);
     }
 
     void createButton(String title, Consumer<Object> consumer) {
-        Button button = new Button(this);
+        Button button = new Button(getContext());
         button.setText(title);
         button.setGravity(Gravity.CENTER);
         mMainContent.addView(button, lp);
         RxView.clicks(button).subscribe(consumer);
+    }
+
+    MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
     }
 }
