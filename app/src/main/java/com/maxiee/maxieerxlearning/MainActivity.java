@@ -1,4 +1,4 @@
-package com.maxiee.maxieerxlearning.ui;
+package com.maxiee.maxieerxlearning;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.maxiee.maxieerxlearning.R;
-import com.maxiee.maxieerxlearning.ui.home.HomeFragment;
+import com.maxiee.maxieerxlearning.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
     HomeFragment mHomeFragment;

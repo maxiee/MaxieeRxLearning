@@ -1,4 +1,4 @@
-package com.maxiee.maxieerxlearning.ui.home;
+package com.maxiee.maxieerxlearning.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.maxiee.maxieerxlearning.R;
-import com.maxiee.maxieerxlearning.ui.MainActivity;
+import com.maxiee.maxieerxlearning.MainActivity;
 
 import io.reactivex.functions.Consumer;
 

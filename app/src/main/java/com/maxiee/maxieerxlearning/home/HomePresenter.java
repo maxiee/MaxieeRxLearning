@@ -1,8 +1,6 @@
-package com.maxiee.maxieerxlearning.ui.home;
+package com.maxiee.maxieerxlearning.home;
 
 import android.util.Log;
-
-import com.maxiee.maxieerxlearning.ui.MainActivity;
 
 import io.reactivex.functions.Consumer;
 
