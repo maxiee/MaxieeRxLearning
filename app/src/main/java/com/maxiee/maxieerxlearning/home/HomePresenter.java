@@ -2,6 +2,8 @@ package com.maxiee.maxieerxlearning.home;
 
 import android.util.Log;
 
+import com.maxiee.maxieerxlearning.demo.button.ButtonFragment;
+
 import io.reactivex.functions.Consumer;
 
 /**
@@ -15,9 +17,16 @@ public class HomePresenter {
     private HomeFragment mHomeFragment;
 
     ListItem[] mListItems = new ListItem[] {
-            ListItem.create(TYPE_SECTION, "RxJava 学习"),
-            ListItem.create(TYPE_SECTION, "RxBindings 学习"),
-            ListItem.create(TYPE_BUTTON, "按钮点击实例", object -> Log.d("maxiee", "clicked!")),
+            ListItem.create(
+                    TYPE_SECTION,
+                    "RxJava 学习"),
+            ListItem.create(
+                    TYPE_SECTION,
+                    "RxBindings 学习"),
+            ListItem.create(
+                    TYPE_BUTTON,
+                    "按钮点击实例",
+                    object -> mHomeFragment.getMainActivity().openFragment(new ButtonFragment())),
     };
 
     public HomePresenter(HomeFragment homeFragment) {
