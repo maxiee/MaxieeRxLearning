@@ -14,6 +14,8 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 import com.maxiee.maxieerxlearning.R;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,11 +36,14 @@ public class ButtonFragment extends Fragment {
     @BindView(R.id.long_click_textview)
     TextView mLongClickTextView;
 
+    @BindView(R.id.throttle_click_button)
+    Button mThrottleClickButton;
+
+    @BindView(R.id.throttle_click_textview)
+    TextView mThrottleTextView;
+
     @BindView(R.id.check_enable)
     CheckBox mCheckEnable;
-
-    @BindView(R.id.check_clickable)
-    CheckBox mCheckClickable;
 
     @BindView(R.id.check_button)
     Button mCheckButton;
@@ -54,6 +59,7 @@ public class ButtonFragment extends Fragment {
 
         buttonNormalClick();
         buttonLongClick();
+        buttonThrottleClick();
         buttonCheck();
 
         return v;
@@ -78,16 +84,25 @@ public class ButtonFragment extends Fragment {
     }
 
     /**
+     * Throttle Click
+     */
+    private void buttonThrottleClick() {
+        RxView.clicks(mThrottleClickButton)
+                .throttleFirst(5, TimeUnit.SECONDS)
+                .subscribe(
+                        object -> mThrottleTextView.setText(
+                                "Clicked at " + System.currentTimeMillis()));
+    }
+
+    /**
      * check button
      */
     private void buttonCheck() {
         RxCompoundButton.checkedChanges(mCheckEnable).subscribe(
                 RxView.enabled(mCheckButton));
 
-        RxCompoundButton.checkedChanges(mCheckClickable).subscribe(
-                RxView.clickable(mCheckButton));
-
         RxView.clicks(mCheckButton).subscribe(
-                object -> mCheckTextView.setText("Clicked at " + System.currentTimeMillis()));
+                object -> mCheckTextView.setText(
+                        "Clicked at " + System.currentTimeMillis()));
     }
 }

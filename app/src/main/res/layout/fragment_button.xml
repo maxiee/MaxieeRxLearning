@@ -46,7 +46,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="控制按钮 clickable 和 enable"
+            android:text="按钮防抖 (5s)"
+            style="@style/demo_title"/>
+
+        <Button
+            android:id="@+id/throttle_click_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="button"/>
+
+        <TextView
+            android:id="@+id/throttle_click_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="控制按钮 enable"
             style="@style/demo_title"/>
 
         <CheckBox
@@ -54,12 +71,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="enable"/>
-
-        <CheckBox
-            android:id="@+id/check_clickable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="clickable"/>
 
         <Button
             android:id="@+id/check_button"
