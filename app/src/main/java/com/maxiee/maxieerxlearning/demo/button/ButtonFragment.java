@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 import com.maxiee.maxieerxlearning.R;
 
 import butterknife.BindView;
@@ -32,6 +34,18 @@ public class ButtonFragment extends Fragment {
     @BindView(R.id.long_click_textview)
     TextView mLongClickTextView;
 
+    @BindView(R.id.check_enable)
+    CheckBox mCheckEnable;
+
+    @BindView(R.id.check_clickable)
+    CheckBox mCheckClickable;
+
+    @BindView(R.id.check_button)
+    Button mCheckButton;
+
+    @BindView(R.id.check_textview)
+    TextView mCheckTextView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +54,7 @@ public class ButtonFragment extends Fragment {
 
         buttonNormalClick();
         buttonLongClick();
+        buttonCheck();
 
         return v;
     }
@@ -60,5 +75,19 @@ public class ButtonFragment extends Fragment {
         RxView.longClicks(mLongClickButton).subscribe(
                 object -> mLongClickTextView.setText(
                         "Long click at " + System.currentTimeMillis()));
+    }
+
+    /**
+     * check button
+     */
+    private void buttonCheck() {
+        RxCompoundButton.checkedChanges(mCheckEnable).subscribe(
+                RxView.enabled(mCheckButton));
+
+        RxCompoundButton.checkedChanges(mCheckClickable).subscribe(
+                RxView.clickable(mCheckButton));
+
+        RxView.clicks(mCheckButton).subscribe(
+                object -> mCheckTextView.setText("Clicked at " + System.currentTimeMillis()));
     }
 }
