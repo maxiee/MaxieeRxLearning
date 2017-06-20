@@ -3,6 +3,7 @@ package com.maxiee.maxieerxlearning.demo.button;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by WangRui on 2017/6/13.
@@ -119,9 +121,11 @@ public class ButtonFragment extends Fragment {
      * HomeBrew RxView.clicks()
      */
     private void buttonHomeBrewClick() {
-        clicks(mHomeBrewButton).subscribe(
+        Disposable d = clicks(mHomeBrewButton).subscribe(
                 object -> mHomeBrewTextView.setText(
                         "Clicked at " + System.currentTimeMillis()));
+
+        d.dispose();
     }
 
     public static Observable<Object> clicks(View view) {
@@ -138,6 +142,22 @@ public class ButtonFragment extends Fragment {
         @Override
         protected void subscribeActual(Observer<? super Object> observer) {
             mView.setOnClickListener(v -> observer.onNext(null));
+
+            observer.onSubscribe(new Disposable() {
+                private boolean mDisposed = false;
+
+                @Override
+                public void dispose() {
+                    Log.d("maxiee", "clear the click listener of button");
+                    mView.setOnClickListener(null);
+                    mDisposed = true;
+                }
+
+                @Override
+                public boolean isDisposed() {
+                    return mDisposed;
+                }
+            });
         }
     }
 }
