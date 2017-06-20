@@ -83,5 +83,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PS: 把 CheckBox 的文字改为同意协议, 按钮改成注册, 这样就成了勾选同意才能注册"/>
+
     </LinearLayout>
 </ScrollView>
