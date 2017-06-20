@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 
 /**
  * Created by WangRui on 2017/6/13.
@@ -51,6 +53,12 @@ public class ButtonFragment extends Fragment {
     @BindView(R.id.check_textview)
     TextView mCheckTextView;
 
+    @BindView(R.id.homebrew_button)
+    Button mHomeBrewButton;
+
+    @BindView(R.id.homebrew_textview)
+    TextView mHomeBrewTextView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +69,7 @@ public class ButtonFragment extends Fragment {
         buttonLongClick();
         buttonThrottleClick();
         buttonCheck();
+        buttonHomeBrewClick();
 
         return v;
     }
@@ -104,5 +113,31 @@ public class ButtonFragment extends Fragment {
         RxView.clicks(mCheckButton).subscribe(
                 object -> mCheckTextView.setText(
                         "Clicked at " + System.currentTimeMillis()));
+    }
+
+    /**
+     * HomeBrew RxView.clicks()
+     */
+    private void buttonHomeBrewClick() {
+        clicks(mHomeBrewButton).subscribe(
+                object -> mHomeBrewTextView.setText(
+                        "Clicked at " + System.currentTimeMillis()));
+    }
+
+    public static Observable<Object> clicks(View view) {
+        return new MaxieeViewClickObservable(view);
+    }
+
+    private static class MaxieeViewClickObservable extends Observable<Object> {
+        private View mView;
+
+        MaxieeViewClickObservable(View view) {
+            mView = view;
+        }
+
+        @Override
+        protected void subscribeActual(Observer<? super Object> observer) {
+            mView.setOnClickListener(v -> observer.onNext(null));
+        }
     }
 }

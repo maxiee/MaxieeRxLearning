@@ -7,7 +7,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -88,5 +89,21 @@
             android:layout_height="wrap_content"
             android:text="PS: 把 CheckBox 的文字改为同意协议, 按钮改成注册, 这样就成了勾选同意才能注册"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自制 RxView.clicks()"
+            style="@style/demo_title"/>
+
+        <Button
+            android:id="@+id/homebrew_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="button" />
+
+        <TextView
+            android:id="@+id/homebrew_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </ScrollView>
