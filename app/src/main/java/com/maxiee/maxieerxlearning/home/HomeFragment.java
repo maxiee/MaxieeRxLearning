@@ -1,8 +1,10 @@
 package com.maxiee.maxieerxlearning.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.style.TextAppearanceSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +48,8 @@ public class HomeFragment extends Fragment {
     void createTitle(String title) {
         TextView titleView = new TextView(getContext());
         titleView.setText(title);
-        titleView.setTextSize(16);
+        titleView.setTextSize(20);
+        titleView.setTextColor(Color.BLACK);
         mMainContent.addView(titleView, lp);
     }
 
