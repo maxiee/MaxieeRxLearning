@@ -29,6 +29,9 @@ public class HomePresenter {
                     "按钮点击实例",
                     object -> mHomeFragment.getMainActivity().openFragment(new ButtonFragment())),
             ListItem.create(
+                    TYPE_SECTION,
+                    "RxRecyclerView 学习"),
+            ListItem.create(
                     TYPE_BUTTON,
                     "RxRecyclerView 实例",
                     object -> mHomeFragment.getMainActivity().openFragment(new RecyclerViewFragment()))
