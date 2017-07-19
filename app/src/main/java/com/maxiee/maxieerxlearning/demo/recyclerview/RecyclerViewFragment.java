@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewChildAttachEvent;
-import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewChildAttachStateChangeEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewChildDetachEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerViewAdapter;
@@ -21,8 +20,6 @@ import com.maxiee.maxieerxlearning.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by WangRui on 2017/7/6.
