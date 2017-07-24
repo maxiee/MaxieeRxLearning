@@ -1,9 +1,8 @@
 package com.maxiee.maxieerxlearning.home;
 
-import android.util.Log;
-
 import com.maxiee.maxieerxlearning.demo.button.ButtonFragment;
 import com.maxiee.maxieerxlearning.demo.recyclerview.RecyclerViewFragment;
+import com.maxiee.maxieerxlearning.demo.viewpager.ViewPagerFragment;
 
 import io.reactivex.functions.Consumer;
 
@@ -34,7 +33,14 @@ public class HomePresenter {
             ListItem.create(
                     TYPE_BUTTON,
                     "RxRecyclerView 实例",
-                    object -> mHomeFragment.getMainActivity().openFragment(new RecyclerViewFragment()))
+                    object -> mHomeFragment.getMainActivity().openFragment(new RecyclerViewFragment())),
+            ListItem.create(
+                    TYPE_SECTION,
+                    "RxViewPager 学习"),
+            ListItem.create(
+                    TYPE_BUTTON,
+                    "RxViewPager 实例",
+                    object -> mHomeFragment.getMainActivity().openFragment(new ViewPagerFragment()))
     };
 
     public HomePresenter(HomeFragment homeFragment) {
