@@ -6,16 +6,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.support.v4.view.RxViewPager;
 import com.maxiee.maxieerxlearning.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by WangRui on 2017/7/24.
@@ -48,6 +52,14 @@ public class ViewPagerFragment extends Fragment {
             public int getCount() {
                 return 3;
             }
+        });
+
+        RxViewPager.pageScrollStateChanges(mViewPager).subscribe(integer -> {
+            Log.d("maxiee", "pageScrollStateChanges " + integer);
+        });
+
+        RxViewPager.pageSelections(mViewPager).subscribe(integer -> {
+            Log.d("maxiee", "pageSelections " + integer);
         });
     }
 
