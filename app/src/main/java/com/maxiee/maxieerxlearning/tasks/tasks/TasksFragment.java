@@ -20,9 +20,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,9 +45,7 @@ import com.maxiee.maxieerxlearning.tasks.data.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -154,6 +159,52 @@ public class TasksFragment extends Fragment implements TasksContract.View {
         mCompositeDisposable.dispose();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.tasks_fragment_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_clear:
+                mPresenter.clearCompletedTasks();
+                break;
+            case R.id.menu_filter:
+                showFilteringPopUpMenu();
+                break;
+            case R.id.menu_refresh:
+                mPresenter.loadTasks(true);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void showFilteringPopUpMenu() {
+        PopupMenu popup = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
+        popup.getMenuInflater().inflate(R.menu.filter_tasks, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.active:
+                    mPresenter.setFiltering(TasksFilterType.ACTIVE_TASKS);
+                    break;
+                case R.id.completed:
+                    mPresenter.setFiltering(TasksFilterType.COMPLETED_TASKS);
+                    break;
+                default:
+                    mPresenter.setFiltering(TasksFilterType.ALL_TASKS);
+                    break;
+            }
+            mPresenter.loadTasks(false);
+            return true;
+        });
+
+        popup.show();
+    }
+
     /**
      * Listener for clicks on tasks in the ListView.
      */
@@ -176,86 +227,112 @@ public class TasksFragment extends Fragment implements TasksContract.View {
 
     @Override
     public void setLoadingIndicator(boolean active) {
+        if (getView() == null) return;
 
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+
+        // Make sure setRefreshing() is called after the layout is done with everything else.
+        srl.post(() -> srl.setRefreshing(active));
     }
 
     @Override
     public void showTasks(List<Task> tasks) {
+        mListAdapter.replaceData(tasks);
 
-    }
-
-    @Override
-    public void showAddTask() {
-        // TODO: 2017/7/26
-    }
-
-    @Override
-    public void showTaskDetailsUi(String taskId) {
-
-    }
-
-    @Override
-    public void showTaskMarkedComplete() {
-
-    }
-
-    @Override
-    public void showTaskMarkedActive() {
-
-    }
-
-    @Override
-    public void showCompletedTasksCleared() {
-
-    }
-
-    @Override
-    public void showLoadingTasksError() {
-
-    }
-
-    @Override
-    public void showNoTasks() {
-
-    }
-
-    @Override
-    public void showActiveFilterLabel() {
-
-    }
-
-    @Override
-    public void showCompletedFilterLabel() {
-
-    }
-
-    @Override
-    public void showAllFilterLabel() {
-
+        mTasksView.setVisibility(View.VISIBLE);
+        mNoTaskView.setVisibility(View.GONE);
     }
 
     @Override
     public void showNoActiveTasks() {
+        showNoTaskViews(
+                getString(R.string.no_tasks_completed),
+                R.drawable.ic_verified_user_24dp,
+                false);
+    }
 
+    @Override
+    public void showNoTasks() {
+        showNoTaskViews(
+                getString(R.string.no_tasks_all),
+                R.drawable.ic_assignment_turned_in_24dp,
+                false);
     }
 
     @Override
     public void showNoCompleteTasks() {
+        showNoTaskViews(
+                getString(R.string.no_tasks_active),
+                R.drawable.ic_verified_user_24dp,
+                false);
+    }
 
+    private void showNoTaskViews(String mainText, int iconRes, boolean showAddView) {
+        mTasksView.setVisibility(View.GONE);
+        mNoTaskView.setVisibility(View.VISIBLE);
+
+        mNoTaskMainView.setText(mainText);
+        mNoTaskIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(), iconRes, null));
+        mNoTaskAddView.setVisibility(showAddView ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void showSuccessfullySavedMessage() {
+        showMessage(getString(R.string.successfully_saved_task_message));
 
+    }
+
+    private void showMessage(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showActiveFilterLabel() {
+        mFilteringLabelView.setText(getResources().getString(R.string.label_active));
+    }
+
+    @Override
+    public void showCompletedFilterLabel() {
+        mFilteringLabelView.setText(getString(R.string.label_completed));
+    }
+
+    @Override
+    public void showAllFilterLabel() {
+        mFilteringLabelView.setText(getString(R.string.label_all));
+    }
+
+    @Override
+    public void showAddTask() {
+        // TODO: 2017/7/26 AddEditTaskActivity
+    }
+
+    @Override
+    public void showTaskDetailsUi(String taskId) {
+        // TODO: 2017/7/26 TaskDetailActivity
+    }
+
+    @Override
+    public void showTaskMarkedComplete() {
+        showMessage(getString(R.string.task_marked_complete));
+    }
+
+    @Override
+    public void showTaskMarkedActive() {
+        showMessage(getString(R.string.task_marked_active));
+    }
+
+    @Override
+    public void showCompletedTasksCleared() {
+        showMessage(getString(R.string.completed_tasks_cleared));
+    }
+
+    @Override
+    public void showLoadingTasksError() {
+        showMessage(getString(R.string.loading_tasks_error));
     }
 
     @Override
     public boolean isActive() {
-        return false;
-    }
-
-    @Override
-    public void showFilteringPopUpMenu() {
-
+        return isAdded();
     }
 }
