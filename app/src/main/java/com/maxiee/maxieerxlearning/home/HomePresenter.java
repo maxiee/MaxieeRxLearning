@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.maxiee.maxieerxlearning.demo.button.ButtonFragment;
 import com.maxiee.maxieerxlearning.demo.recyclerview.RecyclerViewFragment;
 import com.maxiee.maxieerxlearning.demo.viewpager.ViewPagerFragment;
-import com.maxiee.maxieerxlearning.note.TasksActivity;
+import com.maxiee.maxieerxlearning.tasks.TasksActivity;
 
 import io.reactivex.functions.Consumer;
 
