@@ -11,15 +11,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.support.v4.view.RxViewPager;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.maxiee.maxieerxlearning.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * Created by WangRui on 2017/7/24.
@@ -28,6 +31,15 @@ import io.reactivex.functions.Consumer;
 public class ViewPagerFragment extends Fragment {
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
+
+    @BindView(R.id.btn_tab_1)
+    Button mBtnTab1;
+
+    @BindView(R.id.btn_tab_2)
+    Button mBtnTab2;
+
+    @BindView(R.id.btn_tab_3)
+    Button mBtnTab3;
 
     @Nullable
     @Override
@@ -61,6 +73,10 @@ public class ViewPagerFragment extends Fragment {
         RxViewPager.pageSelections(mViewPager).subscribe(integer -> {
             Log.d("maxiee", "pageSelections " + integer);
         });
+
+        RxView.clicks(mBtnTab1).map(o -> 0).subscribe(RxViewPager.currentItem(mViewPager));
+        RxView.clicks(mBtnTab2).map(o -> 1).subscribe(RxViewPager.currentItem(mViewPager));
+        RxView.clicks(mBtnTab3).map(o -> 2).subscribe(RxViewPager.currentItem(mViewPager));
     }
 
     public static class ChildFragment extends Fragment {
