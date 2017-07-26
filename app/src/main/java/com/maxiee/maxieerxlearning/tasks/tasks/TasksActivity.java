@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.maxiee.maxieerxlearning.tasks;
+package com.maxiee.maxieerxlearning.tasks.tasks;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
