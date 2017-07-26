@@ -27,6 +27,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.maxiee.maxieerxlearning.R;
+import com.maxiee.maxieerxlearning.tasks.util.ActivityUtils;
 
 /**
  * Created by WangRui on 2017/7/26.
@@ -54,6 +55,13 @@ public class TasksActivity extends AppCompatActivity {
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) setupDrawerContent(navigationView);
+
+        TasksFragment tasksFragment = (TasksFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (tasksFragment == null) {
+            tasksFragment = TasksFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(), tasksFragment, R.id.contentFrame);
+        }
     }
 
     @Override
