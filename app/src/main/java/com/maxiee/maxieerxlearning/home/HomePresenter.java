@@ -1,8 +1,11 @@
 package com.maxiee.maxieerxlearning.home;
 
+import android.content.Intent;
+
 import com.maxiee.maxieerxlearning.demo.button.ButtonFragment;
 import com.maxiee.maxieerxlearning.demo.recyclerview.RecyclerViewFragment;
 import com.maxiee.maxieerxlearning.demo.viewpager.ViewPagerFragment;
+import com.maxiee.maxieerxlearning.note.TasksActivity;
 
 import io.reactivex.functions.Consumer;
 
@@ -17,6 +20,16 @@ public class HomePresenter {
     private HomeFragment mHomeFragment;
 
     ListItem[] mListItems = new ListItem[] {
+            ListItem.create(
+                    TYPE_SECTION,
+                    "Android Architecture"),
+            ListItem.create(
+                    TYPE_BUTTON,
+                    "todo-mvp-rxjava2-maxiee",
+                    object -> {
+                        Intent i = new Intent(mHomeFragment.getContext(), TasksActivity.class);
+                        mHomeFragment.startActivity(i);
+                    }),
             ListItem.create(
                     TYPE_SECTION,
                     "RxJava 学习"),
