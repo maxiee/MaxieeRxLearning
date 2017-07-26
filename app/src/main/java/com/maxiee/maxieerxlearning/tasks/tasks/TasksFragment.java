@@ -35,6 +35,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.maxiee.maxieerxlearning.R;
 import com.maxiee.maxieerxlearning.tasks.data.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
@@ -50,6 +51,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class TasksFragment extends Fragment implements TasksContract.View {
 
     private CompositeDisposable mCompositeDisposable;
+
+    private TaskAdapter mListAdapter;
 
     private TasksContract.Presenter mPresenter;
 
@@ -72,7 +75,7 @@ public class TasksFragment extends Fragment implements TasksContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: 2017/7/26 create TasksAdapter
+        mListAdapter = new TaskAdapter(new ArrayList<>(0), mItemListener);
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -106,7 +109,7 @@ public class TasksFragment extends Fragment implements TasksContract.View {
 
         // Set up tasks view
         ListView listView = (ListView) root.findViewById(R.id.tasks_list);
-//        listView.setAdapter(); // TODO: 2017/7/26 adapter
+        listView.setAdapter(mListAdapter);
 
         mFilteringLabelView = (TextView) root.findViewById(R.id.filteringLabel);
         mTasksView = (LinearLayout) root.findViewById(R.id.tasksLL);
@@ -150,6 +153,26 @@ public class TasksFragment extends Fragment implements TasksContract.View {
         super.onDestroyView();
         mCompositeDisposable.dispose();
     }
+
+    /**
+     * Listener for clicks on tasks in the ListView.
+     */
+    TaskItemListener mItemListener = new TaskItemListener() {
+        @Override
+        public void onTaskClick(Task clickedTask) {
+            mPresenter.openTaskDetails(clickedTask);
+        }
+
+        @Override
+        public void onCompleteTaskClick(Task completedTask) {
+            mPresenter.completeTask(completedTask);
+        }
+
+        @Override
+        public void onActivateTaskClick(Task activatedTask) {
+            mPresenter.activateTask(activatedTask);
+        }
+    };
 
     @Override
     public void setLoadingIndicator(boolean active) {
